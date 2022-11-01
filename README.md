@@ -1,1 +1,1 @@
-# dataaugmentation-for-time-series-data
+# data-augmentation-for-time-series-data
