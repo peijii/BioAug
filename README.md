@@ -18,4 +18,4 @@ A tool that can help you to augment your time series data using in machine learn
 of the samples can be changed using time-warping.<br>
 **RandomSampling:** random resampling  the signal.<br>
 **RandomCutout:** random cut off some parts of the signal. <br>
-## If you want get more info about the parameters we used, please read this article. https://doi.org/10.1145/3136755.3136817<br>
+## If you want get more info about the parameters we used, please read this article. <br>
