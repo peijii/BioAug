@@ -2,7 +2,7 @@
 A tool that can help you to augment your time series data using in machine learning sensors
 # Requirements
 # GUI
-![overall structure](figure/abs.png)
+![overall structure](figure/augmentationGui.png)
 # Usage
 ## Select the channel you want to import (up to 6 channels).
 ## Select data files.<br>
