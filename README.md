@@ -64,3 +64,7 @@ This set-up was tested under Windows 10 and Ubuntu 20.04.
 <div align='center'>
 <img src = 'figure/time.gif' height="200px" width="1600px">
 </div>
+
+<div align='center'>
+<img src = 'figure/rc.gif' height="200px" width="1600px">
+</div>
