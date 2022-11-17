@@ -26,26 +26,26 @@ This set-up was tested under Windows 10 and Ubuntu 20.04.
 
 ### Settings Panel
 
-- `Select channel`:
-- `Select File`:
-- `Select Folder`:
-- `Processing and Save`:
-- `Progress Bar`:
+- `Select channel`: &emsp;&emsp;&ensp;&ensp;       Selects the channel you want to import (up to 6 channels).
+- `Select File`:  &emsp;&emsp;&emsp; &ensp;&ensp;  Selects the data file.
+- `Select Folder`:  &emsp;&emsp;&emsp;&ensp;       Selects a data folder.
+- `Processing and Save`: &ensp;                    Processes data augmentation and save in same folder.
+- `Progress Bar`: &emsp;&emsp;&emsp;&ensp;&ensp;   Displays the percentage of data augmentation processes that have completed. 
 
 ### Plot Panel
 
-- `Raw data Plot`:
-- `Augmentated data Plot`:
+- `Raw data Plot`: &emsp;&emsp;&emsp;&ensp;        Displays the raw data that imported.
+- `Augmentated data Plot`:                         Previews the Augmentated data.
 
 ### Augmentation Methods Panel
 
-- `Jittering`:&emsp;&emsp;&emsp;&emsp;&emsp;         a way of simulating additive sensor noise
-- `Scaling`:&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;     changes the magnitude of the data in a window by multiplying by a random scalar
-- `Permulation`:&emsp;&emsp;&emsp;&emsp;             a randomly perturb the temporal location of within-window events. 
-- `MagnitudeWarping`:&ensp;&emsp;                    changes the magnitude of each sample by convolving the data window with a smooth curve varying around one.
-- `TimeWarping`:&emsp;&emsp;&emsp;&emsp;             another way to perturb the temporal location. 
-- `RandomSampling`:&emsp;&ensp;&emsp;                 random resampling  the signal.
-- `RandomCutout`:&emsp;&emsp;&ensp;&emsp;             random cut off some parts of the signal.
+- `Jittering`:&emsp;&emsp;&emsp;&emsp;&emsp; &ensp;   a way of simulating additive sensor noise
+- `Scaling`:&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;changes the magnitude of the data in a window by multiplying by a random scalar
+- `Permulation`:&emsp;&emsp;&emsp;&emsp; &ensp;       a randomly perturb the temporal location of within-window events. 
+- `MagnitudeWarping`:&ensp;&emsp;  &ensp;             changes the magnitude of each sample by convolving the data window with a smooth curve varying around one.
+- `TimeWarping`:&emsp;&emsp;&emsp;&emsp;   &ensp;     another way to perturb the temporal location. 
+- `RandomSampling`:&emsp;&ensp;&emsp;   &ensp;        random resampling  the signal.
+- `RandomCutout`:&emsp;&emsp;&ensp;&emsp;   &ensp;    random cut off some parts of the signal.
 
 ### Select the channel you want to import (up to 6 channels).
 ### Select data files.<br>
