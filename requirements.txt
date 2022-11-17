@@ -1,4 +1,4 @@
 matplotlib>=3.2.2
 numpy>=1.18.5
 scipy>=1.4.1
-pyqt==5.15.6
+PyQt5==5.15.6
