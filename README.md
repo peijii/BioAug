@@ -1,17 +1,18 @@
 # Data augmentation for time series data
 A tool that can help you to augment your time series data using in machine learning sensors
-# Requirements
+## Requirements
 ## GUI
 <div align='center'>
-<img src = 'figure/gui.png' height="288px" width="432px">
+<img src = 'figure/gui.png' height="600px" width="800px">
 </div>
-# Usage
-## Select the channel you want to import (up to 6 channels).
-## Select data files.<br>
+
+## Usage
+### Select the channel you want to import (up to 6 channels).
+### Select data files.<br>
 **single flie:** press "Select File" to select the data<br>
 **multi flies:** press "Select Folder" to select a group of data
-## Press the right side red botton "Raw data Plot" to preview your data
-## Select the Augmentation Methods that you want:<br>
+### Press the right side red botton "Raw data Plot" to preview your data
+### Select the Augmentation Methods that you want:<br>
 **Jittering:** a way of simulating additive sensor noise<br>
 **Scaling:** changes the magnitude of the data in a window by multiplying by a random scalar<br>
 **Permutation:** a randomly perturb the temporal location of within-window events. To perturb the location of the data in a single window, we first slice the data into N samelength segments,and randomly permute the segments to create a new window<br>
