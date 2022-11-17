@@ -4,6 +4,7 @@ A tool that can help you  augment your time series data customly.
 ## Table of Contents
  * [Installation](#installation)
  * [Uasge](#usage)
+ * [Result](#result)
 
 ## Installation
 We strongly recommend the usage of Anaconda for managing your python environments. Clone repo and install [requirements.txt](https://github.com/peijichen0324/data-augmentation-for-time-series-data/blob/main/requirements.txt) in a
@@ -46,3 +47,5 @@ This set-up was tested under Windows 10 and Ubuntu 20.04.
 - `TimeWarping`:&emsp;&emsp;&emsp;&emsp;   &ensp;     another way to perturb the temporal location. 
 - `RandomSampling`:&emsp;&ensp;&emsp;   &ensp;        random resampling  the signal.
 - `RandomCutout`:&emsp;&emsp;&ensp;&emsp;   &ensp;    random cut off some parts of the signal.
+
+## Result
