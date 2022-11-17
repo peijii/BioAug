@@ -21,7 +21,7 @@ This set-up was tested under Windows 10 and Ubuntu 20.04.
 
 ## Usage
 <div align='center'>
-<img src = 'figure/gui.png' height="600px" width="800px">
+<img src = 'figure/gui.png' height="550px" width="800px">
 </div>
 
 ### Settings Panel
