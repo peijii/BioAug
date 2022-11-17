@@ -3,20 +3,23 @@ A tool that can help you  augment your time series data customly.
 
 ## Table of Contents
  * [Installation](#installation)
+ * [Uasge](#usage)
 
 ## Installation
-We strongly recommend the usage of Anaconda for managing your python environments. 
-This set-up was tested under Windows 10 and Ubuntu.
-```
+We strongly recommend the usage of Anaconda for managing your python environments. Clone repo and install [requirements.txt](https://github.com/ultralytics/yolov5/blob/master/requirements.txt) in a
+[**Python>=3.7.0**](https://www.python.org/) environment, including
+[**pyqt==5.15.6**](https://riverbankcomputing.com/software/pyqt/).
+This set-up was tested under Windows 10 and Ubuntu 20.04.
+
+```bash
   $ conda create --name augment_tool python=3.7
-	$ conda activate augment_tool
-	$ git clone https://github.com/peijichen0324/data-augmentation-for-time-series-data
+  $ conda activate augment_tool
+  $ git clone https://github.com/peijichen0324/data-augmentation-for-time-series-data  # clone
   $ cd data-augmentation-for-time-series-data/
-  $ pip install -r requirements.txt
-	
+  $ pip install -r requirements.txt  # install
 ```
 
-## GUI
+## Usage
 <div align='center'>
 <img src = 'figure/gui.png' height="600px" width="800px">
 </div>
