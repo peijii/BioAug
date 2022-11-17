@@ -24,7 +24,15 @@ This set-up was tested under Windows 10 and Ubuntu 20.04.
 <img src = 'figure/gui.png' height="600px" width="800px">
 </div>
 
-## Usage
+### Settings Panel
+
+- `Select channel`:
+- `Select file`
+- `torch`
+- `opencv-python`
+- `h5py`
+- `tqdm`
+
 ### Select the channel you want to import (up to 6 channels).
 ### Select data files.<br>
 **single flie:** press "Select File" to select the data<br>
