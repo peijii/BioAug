@@ -1,6 +1,21 @@
 # Data augmentation for time series data
-A tool that can help you to augment your time series data using in machine learning sensors
-## Requirements
+A tool that can help you  augment your time series data customly.
+
+## Table of Contents
+ * [Installation](#installation)
+
+## Installation
+We strongly recommend the usage of Anaconda for managing your python environments. 
+This set-up was tested under Windows 10 and Ubuntu.
+```
+  $ conda create --name augment_tool python=3.7
+	$ conda activate augment_tool
+	$ git clone https://github.com/peijichen0324/data-augmentation-for-time-series-data
+  $ cd data-augmentation-for-time-series-data/
+  $ pip install -r requirements.txt
+	
+```
+
 ## GUI
 <div align='center'>
 <img src = 'figure/gui.png' height="600px" width="800px">
