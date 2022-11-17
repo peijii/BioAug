@@ -54,5 +54,5 @@ This set-up was tested under Windows 10 and Ubuntu 20.04.
 </div>
 
 <div align='center'>
-<img src = 'figure/gauss.gif' height="200px" width="1600px">
+<img src = 'figure/Gauss.gif' height="200px" width="1600px">
 </div>
