@@ -56,3 +56,7 @@ This set-up was tested under Windows 10 and Ubuntu 20.04.
 <div align='center'>
 <img src = 'figure/Gauss.gif' height="200px" width="1600px">
 </div>
+
+<div align='center'>
+<img src = 'figure/perm.gif' height="200px" width="1600px">
+</div>
