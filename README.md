@@ -52,3 +52,7 @@ This set-up was tested under Windows 10 and Ubuntu 20.04.
 <div align='center'>
 <img src = 'figure/raw.jpg' height="200px" width="1600px">
 </div>
+
+<div align='center'>
+<img src = 'figure/gauss.gif' height="200px" width="1600px">
+</div>
