@@ -49,3 +49,6 @@ This set-up was tested under Windows 10 and Ubuntu 20.04.
 - `RandomCutout`:&emsp;&emsp;&ensp;&emsp;   &ensp;    random cut off some parts of the signal.
 
 ## Result
+<div align='center'>
+<img src = 'figure/raw.jpg' height="200px" width="1600px">
+</div>
