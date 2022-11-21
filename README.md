@@ -35,8 +35,8 @@ This set-up was tested under Windows 10 and Ubuntu 20.04.
 
 ### Plot Panel
 
-- `Raw data Plot`: &emsp;&emsp;&emsp;&ensp;        Displays the raw data that imported.
-- `Augmentated data Plot`:                         Previews the Augmentated data.
+- `Raw data Plot`: &emsp;&emsp;&emsp;&ensp;        Displays the raw data.
+- `Augmentated data Plot`:                         Displays the augmentated data.
 
 ### Augmentation Methods Panel
 
