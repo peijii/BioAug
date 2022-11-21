@@ -1,10 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-# @file name  : demo_gui.py
-# @author     : Peiji, Chen
-# @date       : 2022/04/08
-# @brief      :
-"""
 from PyQt5.Qt import *
 from PyQt5 import QtWidgets
 from PyQt5.Qt import QDialog, QApplication, QFileDialog
