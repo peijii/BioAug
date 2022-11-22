@@ -3,7 +3,7 @@ import numpy as np
 from scipy.interpolate import CubicSpline
 from time import time
 
-SEED = 1
+SEED = 42
 
 # 1. "Jittering" can be considered as applying different noise to each sample. 
 class Jittering(object):
