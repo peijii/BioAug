@@ -13,7 +13,7 @@ We strongly recommend the usage of Anaconda for managing your python environment
 This set-up was tested under Windows 10 and Ubuntu 20.04.
 
 ```bash
-  $ conda create --name augment_tool python=3.8
+  $ conda create --name augment_tool python=3.8 # virtual env
   $ conda activate augment_tool
   $ git clone https://github.com/peijichen0324/data-augmentation-for-time-series-data  # clone
   $ cd data-augmentation-for-time-series-data/
