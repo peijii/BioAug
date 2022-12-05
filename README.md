@@ -42,7 +42,7 @@ This set-up was tested under Windows 10 and Ubuntu 20.04.
 
 - `Jittering`:&emsp;&emsp;&emsp;&emsp;&emsp; &ensp;   a way of simulating additive sensor noise
 - `Scaling`:&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;changes the magnitude of the data in a window by multiplying by a random scalar
-- `Permulation`:&emsp;&emsp;&emsp;&emsp; &ensp;       a randomly perturb the temporal location of within-window events. 
+- `Permulation`:&emsp;&emsp;&emsp;&emsp; &ensp;       randomly perturb the temporal location of within-window events. 
 - `MagnitudeWarping`:&ensp;&emsp;  &ensp;             changes the magnitude of each sample by convolving the data window with a smooth curve varying around one.
 - `TimeWarping`:&emsp;&emsp;&emsp;&emsp;   &ensp;     another way to perturb the temporal location. 
 - `RandomSampling`:&emsp;&ensp;&emsp;   &ensp;        random resampling  the signal.
