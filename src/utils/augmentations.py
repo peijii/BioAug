@@ -5,84 +5,6 @@ from time import time
 
 SEED = 42
 
-# 1. "Jittering" can be considered as applying different noise to each sample. 
-class Jittering(object):
-    """Jittering the input time-series data randomly with a given probability.
-    
-    Args:
-        p        (float): probability of the sensor data being jittered. Default value is 0.5.
-        var1     (float): sd of the noise1 (FMG).
-        var2     (float): sd of the noise2 (EMG).
-        wSize    (int)  : Length of the input data.
-        channels (int)  : Number of the input channels.
-    """
-
-    def __init__(self, sigma, p=0.5, wSize=500, channels=6) -> None:
-        self.p = p
-        # self.fmg_noise = np.zeros(shape=(wSize, channels // 2))
-        # self.emg_noise = np.zeros(shape=(wSize, channels // 2))
-        # for i in range(channels // 2): self.fmg_noise[:, i] = np.random.normal(0.0, sigma, size=(wSize,))
-        # for j in range(channels // 2): self.emg_noise[:, j] = np.random.normal(0.0, sigma, size=(wSize,))
-
-        # self.noise = np.concatenate([self.fmg_noise, self.emg_noise], axis=1)
-        if channels == 1:
-            self.noise = np.squeeze(np.random.normal(loc=0., scale=sigma, size=(wSize, channels)))
-        else:
-            self.noise = np.random.normal(loc=0., scale=sigma, size=(wSize, channels))
-
-    def __call__(self, signal):
-        """
-        Args:
-            Signal (EMG and FMG or Tensor): Signal to be jittered.
-
-        Returns:
-            Signal or Tensor: Randomly jittered signal.
-        """
-        if np.random.uniform(0, 1) < self.p:
-            signal_ = np.array(signal).copy()
-            signal_ += self.noise
-            return signal_
-        return signal
-
-    def __repr__(self) -> str:
-        return self.__class__.__name__ + '(p={})'.format(self.p)
-
-
-# 2. "Scaling" can be considered as "applying constant noise to the entire samples"
-class Scaling(object):
-    """Scaling the input time-series data randomly with a given probability.
-    
-    Args:
-        p       (float): probability of the sensor data being jittered. Default value is 0.5.
-        sigma   (float): sd of the scale value
-        wSize    (int)  : Length of the input data.
-        channels (int)  : Number of the input channels.
-    """
-
-    def __init__(self, sigma=0.1, p=0.5, wSize=500, channels=6):
-        self.p = p
-        self.scalingFactor = np.random.normal(loc=1.0, scale=sigma, size=(1, channels))
-        if channels == 1:
-            self.noise = np.squeeze(np.matmul(np.ones((wSize, 1)), self.scalingFactor))
-        else:
-            self.noise = np.matmul(np.ones((wSize, 1)), self.scalingFactor)
-
-    def __call__(self, signal):
-        """
-        Args:
-            Signal (EMG and FMG or Tensor): Signal to be scaled.
-
-        Returns:
-            Signal or Tensor: Randomly scaled signal.
-        """
-        if np.random.uniform(0, 1) < self.p:
-            signal_ = np.array(signal).copy()
-            signal_ *= self.noise
-            return signal_
-        return signal
-
-    def __repr__(self) -> str:
-        return self.__class__.__name__ + '(p={})'.format(self.p)
 
 
 # 3. Permutation
@@ -367,26 +289,16 @@ class GaussianNoise(object):
     """Jittering the input time-series data randomly with a given probability.
 
     Args:
-        p        (float): probability of the sensor data being jittered. Default value is 0.5.
-        var1     (float): sd of the noise1 (FMG).
-        var2     (float): sd of the noise2 (EMG).
-        wSize    (int)  : Length of the input data.
-        channels (int)  : Number of the input channels.
+        p       (float) : Probability of applying gaussian noise to the input signal.
+        SNR     (float) : Signal-to-Noise Ratio, which determines the relative level of noise to be added.
+        seed    (int)   : A seed value for the random number generator.
     """
-
     def __init__(self, p=0.5, SNR=25, seed=SEED):
         self.p = p
         self.SNR = SNR
         self.seed = seed
 
     def __call__(self, signal):
-        """
-        Args:
-            Signal (EMG and FMG or Tensor): Signal to be jittered.
-
-        Returns:
-            Signal or Tensor: Randomly jittered signal.
-        """
         if np.random.uniform(0, 1) < self.p:
             signal_ = np.array(signal).copy()
             np.random.seed(self.seed)
@@ -400,9 +312,5 @@ class GaussianNoise(object):
                 noise_variance = signal_power / np.power(10, (self.SNR / 10))
                 noise = (np.sqrt(noise_variance) / np.std(noise)) * noise
                 signal_[:, i] = signal_[:, i] + noise
-            new_signal = np.stack((signal, signal_), 0)
             return signal_
         return signal
-
-    def __repr__(self) -> str:
-        return self.__class__.__name__ + '(p={})'.format(self.p)
