@@ -1,5 +1,10 @@
-# Data augmentation for time series data
-A tool that can help you  augment your time series data customly.
+# BioAug - Biosignal Augmentation in Python
+*A toolbox for biosignal augmentation written in Python.*
+
+<p align="center">
+  <img src="fig/bioaug.jpeg" alt="模块1" width="90%">
+</p>
+
 
 ## Table of Contents
  * [Installation](#installation)
