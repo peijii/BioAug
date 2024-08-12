@@ -6,9 +6,10 @@ class Permutation(object):
     """Permutate the input time-series data randomly with a given probability.
     
     Args:
-        p             (float) : probability of applying permutation to the input signal.
-        nPerm         (int)   : sd of the scale value
-        minSegLength  (int)   : Length of the input data.
+        p             (float) : Probability of applying permutation to the input signal.
+        nPerm         (int)   : The number of segments into which the signal will be divide. The signal is split into 'nPerm'
+                                segments, which are then randomly recorded. 
+        minSegLength  (int)   : The minimum length of each segment. 
     """
 
     def __init__(self, p=0.5, nPerm=4, minSegLength=10):
@@ -17,27 +18,27 @@ class Permutation(object):
         self.minSegLength = minSegLength
 
     def __call__(self, signal):
-        """signal: [length, channel]"""
-        length = signal.shape[0]
-        channels = signal.shape[1]
+        """signal: [sequence_length, input_dim]"""
+        sequence_length = signal.shape[0]
+        input_dim = signal.shape[1]
         if np.random.uniform(0, 1) < self.p:
-            if channels == 1:
-                signal_ = np.squeeze(np.zeros((length, channels)))
+            if input_dim == 1:
+                signal_ = np.squeeze(np.zeros((sequence_length, input_dim)))
             else:
-                signal_ = np.zeros((length, channels))
+                signal_ = np.zeros((sequence_length, input_dim))
             idx = np.random.permutation(self.nPerm)
             flag = True
             while flag == True:
                 segs = np.zeros(self.nPerm + 1, dtype=int)
                 segs[1:-1] = np.sort(
-                    np.random.randint(self.minSegLength, length - self.minSegLength, self.nPerm - 1))
-                segs[-1] = length
+                    np.random.randint(self.minSegLength, sequence_length - self.minSegLength, self.nPerm - 1))
+                segs[-1] = sequence_length
                 if np.min(segs[1:] - segs[0:-1]) > self.minSegLength:
                     flag = False
 
             pp = 0
             for i in range(self.nPerm):
-                if channels == 1:
+                if input_dim == 1:
                     signal_temp = signal[segs[idx[i]]:segs[idx[i] + 1]]
                     signal_[pp:pp + len(signal_temp)] = signal_temp
                 else:
