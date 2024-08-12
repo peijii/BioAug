@@ -7,33 +7,31 @@ class MagnitudeWarping(object):
     """Perform the MagnitudeWarping to the input time-series data randomly with a given probability.
     
     Args:
-        p        (float) : probability of the sensor data to be performed the MagitudeWarping. Default value is 0.5.
+        p        (float) : Probability of applying MagitudeWarping to the input signal.
         sigma    (float) : sd of the scale value.
         knot     (int)   :                      .                     
-        wSize    (int)   : Length of the input data.
-        channels (int)   : Number of the input channels.
     """
 
-    def __init__(self, sigma=0.1, knot=4, p=0.5, wSize=500, channels=6, seed=SEED):
+    def __init__(self, p=0.5, sigma=0.1, knot=4, seed=0):
         self.p = p
-        self.x = (np.ones((channels, 1)) * (np.arange(0, wSize, (wSize-1)/(knot+1)))).transpose()
-        np.random.seed(seed)
-        self.y = np.random.normal(loc=1.0, scale=sigma, size=(knot+2, channels))
-        self.x_range = np.arange(wSize)
-        if channels == 1:
-            self.randomCurves = np.squeeze(np.array([CubicSpline(self.x[:, i], self.y[:, i])(self.x_range) for i in range(channels)]).transpose())
-        else:
-            self.randomCurves = np.array([CubicSpline(self.x[:, i], self.y[:, i])(self.x_range) for i in range(channels)]).transpose() 
-
+        self.sigma = sigma
+        self.knot = knot
+        self.seed = seed
+ 
     def __call__(self, signal):
-        """
-        Args:
-            Signal (EMG and FMG or Tensor): Signal to be performed the MagitudeWarping.
-
-        Returns:
-            Signal or Tensor: Randomly MagitudeWarping signal.
-        """
+        """signal: [sequence_length, input_dim]"""
         if np.random.uniform(0, 1) < self.p:
+            sequence_length = signal.shape[0]
+            input_dim = signal.shape[1]
+            self.x = (np.ones((input_dim, 1)) * (np.arange(0, sequence_length, (sequence_length-1)/(knot+1)))).transpose()
+            np.random.seed(self.seed)
+            self.y = np.random.normal(loc=1.0, scale=self.sigma, size=(self.knot+2, input_dim))
+            self.x_range = np.arange(sequence_length)
+            if input_dim == 1:
+                self.randomCurves = np.squeeze(np.array([CubicSpline(self.x[:, i], self.y[:, i])(self.x_range) for i in range(input_dim)]).transpose())
+            else:
+                self.randomCurves = np.array([CubicSpline(self.x[:, i], self.y[:, i])(self.x_range) for i in range(input_dim)]).transpose() 
+
             signal_ = np.array(signal).copy()
             return signal_ * self.randomCurves
         return signal
