@@ -2,7 +2,7 @@
 *A toolbox for biosignal augmentation written in Python.*
 
 <p align="left">
-  <img src="fig/bioaug.jpeg" alt="模块1" width="70%">
+  <img src="fig/bioaug.jpeg" alt="模块1" width="60%">
 </p>
 
 
