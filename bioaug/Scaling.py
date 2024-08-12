@@ -14,12 +14,12 @@ class Scaling(object):
         self.sigma = sigma
 
     def __call__(self, signal):
-        """signal: [length, channel]"""
+        """signal: [sequence_length, input_dim]"""
         if np.random.uniform(0, 1) < self.p:
-            length = signal.shape[0]
-            channels = signal.shape[1]
-            self.scalingFactor = np.random.normal(loc=1.0, scale=self.sigma, size=(1, channels))
-            self.factor = np.matmul(np.ones((length, 1)), self.scalingFactor)
+            sequence_length = signal.shape[0]
+            input_dim = signal.shape[1]
+            self.scalingFactor = np.random.normal(loc=1.0, scale=self.sigma, size=(1, input_dim))
+            self.factor = np.matmul(np.ones((sequence_length, 1)), self.scalingFactor)
             signal_ = np.array(signal).copy()
             signal_ *= self.factor
             return signal_
@@ -27,7 +27,7 @@ class Scaling(object):
 
 
 if __name__ == '__main__':
-    data = np.random.normal(loc=1, scale=1, size=(500, 6))
+    data = np.random.normal(loc=1, scale=1, size=(500, 1))
     gn = Scaling(p=1.0, sigma=0.5)
     aug_data = gn(data)
 
@@ -41,4 +41,3 @@ if __name__ == '__main__':
         ax = aug_fig.add_subplot(3, 2, plt_index)
         ax.plot(list(range(500)), aug_data[:, plt_index-1], color='r')
     plt.show()
-
