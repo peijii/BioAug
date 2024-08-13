@@ -1,5 +1,4 @@
 import numpy as np
-import matplotlib.pyplot as plt
 
 
 class Permutation(object):
@@ -19,8 +18,7 @@ class Permutation(object):
 
     def __call__(self, signal):
         """signal: [sequence_length, input_dim]"""
-        sequence_length = signal.shape[0]
-        input_dim = signal.shape[1]
+        sequence_length, input_dim = signal.shape[0], signal.shape[1]
         if np.random.uniform(0, 1) < self.p:
             if input_dim == 1:
                 signal_ = np.squeeze(np.zeros((sequence_length, input_dim)))
@@ -47,20 +45,3 @@ class Permutation(object):
                 pp += len(signal_temp)
             return signal_
         return signal
-
-
-if __name__ == '__main__':
-    data = np.random.normal(loc=1, scale=1, size=(500, 6))
-    pe = Permutation(p=1.0, nPerm=2, minSegLength=10)
-    aug_data = pe(data)
-
-    raw_fig = plt.figure(figsize=(5, 5))
-    for plt_index in range(1, 7):
-        ax = raw_fig.add_subplot(3, 2, plt_index)
-        ax.plot(list(range(500)), data[:, plt_index-1])
-
-    aug_fig = plt.figure(figsize=(5, 5))
-    for plt_index in range(1, 7):
-        ax = aug_fig.add_subplot(3, 2, plt_index)
-        ax.plot(list(range(500)), aug_data[:, plt_index-1], color='r')
-    plt.show()

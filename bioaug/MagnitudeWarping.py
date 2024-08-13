@@ -1,6 +1,6 @@
 import numpy as np
 from scipy.interpolate import CubicSpline
-import matplotlib.pyplot as plt
+
 
 class MagnitudeWarping(object):
     """Perform the MagnitudeWarping to the input time-series data randomly with a given probability.
@@ -22,8 +22,7 @@ class MagnitudeWarping(object):
     def __call__(self, signal):
         """signal: [sequence_length, input_dim]"""
         if np.random.uniform(0, 1) < self.p:
-            sequence_length = signal.shape[0]
-            input_dim = signal.shape[1]
+            sequence_length, input_dim = signal.shape[0], signal.shape[1]
             self.x = (np.ones((input_dim, 1)) * (np.arange(0, sequence_length, (sequence_length-1)/(self.knot+1)))).transpose()
             np.random.seed(self.seed)
             self.y = np.random.normal(loc=1.0, scale=self.sigma, size=(self.knot+2, input_dim))
@@ -33,20 +32,3 @@ class MagnitudeWarping(object):
             signal_ = np.array(signal).copy()
             return signal_ * self.randomCurves
         return signal
-    
-
-if __name__ == '__main__':
-    data = np.random.normal(loc=1, scale=1, size=(500, 6))
-    fn = MagnitudeWarping(p=1.0, sigma=0.2, knot=4)
-    aug_data = fn(data)
-
-    raw_fig = plt.figure(figsize=(5, 5))
-    for plt_index in range(1, 7):
-        ax = raw_fig.add_subplot(3, 2, plt_index)
-        ax.plot(list(range(500)), data[:, plt_index-1])
-
-    aug_fig = plt.figure(figsize=(5, 5))
-    for plt_index in range(1, 7):
-        ax = aug_fig.add_subplot(3, 2, plt_index)
-        ax.plot(list(range(500)), aug_data[:, plt_index-1], color='r')
-    plt.show()

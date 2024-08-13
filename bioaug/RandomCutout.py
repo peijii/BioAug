@@ -1,5 +1,4 @@
 import numpy as np
-import matplotlib.pyplot as plt
 
 
 class RandomCutout(object):
@@ -42,20 +41,3 @@ class RandomCutout(object):
             signal_ = signal_ * mask + mask_b * self.default
             return signal_
         return signal
-    
-
-if __name__ == '__main__':
-    data = np.random.normal(loc=1, scale=1, size=(500, 1))
-    fn = RandomCutout(p=1.0, area=100, num=2, seed=42)
-    aug_data = fn(data)
-
-    raw_fig = plt.figure(figsize=(5, 5))
-    for plt_index in range(1, 2):
-        ax = raw_fig.add_subplot(3, 2, plt_index)
-        ax.plot(list(range(500)), data[:, plt_index-1])
-
-    aug_fig = plt.figure(figsize=(5, 5))
-    for plt_index in range(1, 2):
-        ax = aug_fig.add_subplot(3, 2, plt_index)
-        ax.plot(list(range(500)), aug_data[:, plt_index-1], color='r')
-    plt.show()

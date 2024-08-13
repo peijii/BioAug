@@ -1,6 +1,5 @@
 import numpy as np
 from scipy.interpolate import CubicSpline
-import matplotlib.pyplot as plt
 
 
 class TimeWarping(object):
@@ -26,8 +25,7 @@ class TimeWarping(object):
         """signal: [sequence_length, input_dim]"""
         if np.random.uniform(0, 1) < self.p:
             signal_ = np.array(signal).copy()
-            sequence_length = signal.shape[0]
-            input_dim = signal.shape[1]
+            sequence_length, input_dim = signal.shape[0], signal.shape[1]
             self.init_seed(sequence_length, input_dim, self.seed)
             if len(signal_.shape) == 1:
                 signal_ = signal_[:, np.newaxis]
@@ -50,20 +48,3 @@ class TimeWarping(object):
         self.t_scale = [(sequence_length - 1) / self.tt_cum[-1, i] for i in range(input_dim)]
         for i in range(input_dim):
             self.tt_cum[:, i] = self.tt_cum[:, i] * self.t_scale[i]
-
-
-if __name__ == '__main__':
-    data = np.random.normal(loc=1, scale=1, size=(500, 6))
-    fn = TimeWarping(p=1.0, sigma=0.8, knot=4)
-    aug_data = fn(data)
-
-    raw_fig = plt.figure(figsize=(5, 5))
-    for plt_index in range(1, 7):
-        ax = raw_fig.add_subplot(3, 2, plt_index)
-        ax.plot(list(range(500)), data[:, plt_index-1])
-
-    aug_fig = plt.figure(figsize=(5, 5))
-    for plt_index in range(1, 7):
-        ax = aug_fig.add_subplot(3, 2, plt_index)
-        ax.plot(list(range(500)), aug_data[:, plt_index-1], color='r')
-    plt.show()
