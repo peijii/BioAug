@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+
 class ImpedanceVariation(object):
     """Simulate impedance variation on a physiological signal using trigonometric, exponential, or linear functions.
 
@@ -47,20 +48,3 @@ class ImpedanceVariation(object):
             
             return signal_
         return signal
-
-# Example usage
-if __name__ == '__main__':
-    data = np.random.normal(loc=1, scale=1, size=(500, 6))
-    gn = ImpedanceVariation(p=1.0, amplitude=1, frequency=0.1, func='sin')
-    aug_data = gn(data)
-
-    raw_fig = plt.figure(figsize=(5, 5))
-    for plt_index in range(1, 7):
-        ax = raw_fig.add_subplot(3, 2, plt_index)
-        ax.plot(list(range(500)), data[:, plt_index-1])
-
-    aug_fig = plt.figure(figsize=(5, 5))
-    for plt_index in range(1, 7):
-        ax = aug_fig.add_subplot(3, 2, plt_index)
-        ax.plot(list(range(500)), aug_data[:, plt_index-1], color='r')
-    plt.show()
