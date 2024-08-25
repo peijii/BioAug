@@ -31,20 +31,3 @@ class GaussianNoise(object):
                 signal_[:, i] = signal_[:, i] + noise
             return signal_
         return signal
-
-
-if __name__ == '__main__':
-    data = np.random.normal(loc=1, scale=1, size=(500, 6))
-    gn = GaussianNoise(p=1.0, SNR=15)
-    aug_data = gn(data)
-
-    raw_fig = plt.figure(figsize=(5, 5))
-    for plt_index in range(1, 7):
-        ax = raw_fig.add_subplot(3, 2, plt_index)
-        ax.plot(list(range(500)), data[:, plt_index-1])
-
-    aug_fig = plt.figure(figsize=(5, 5))
-    for plt_index in range(1, 7):
-        ax = aug_fig.add_subplot(3, 2, plt_index)
-        ax.plot(list(range(500)), aug_data[:, plt_index-1], color='r')
-    plt.show()
