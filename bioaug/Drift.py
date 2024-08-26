@@ -35,6 +35,8 @@ class SignalDrift(object):
             
             if self.func == 'linear':
                 drift = self.drift_rate * t
+            elif self.func == 'exp':
+                drift = self.drift_rate * (np.exp(t) - 1)  # Exponential drift
             else:
                 raise ValueError("Function type must be 'linear'")
             
