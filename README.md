@@ -52,10 +52,45 @@ This set-up was tested under Windows 10 and Ubuntu 20.04.
 </p>
 
 * `bio/Distortion.py`
-  * [class Distortion](https://github.com/peijii/I2CNet/): Simulate biosignals with distortion during real-world use.
+  * [class Distortion](https://github.com/peijii/I2CNet/): simulate biosignals with distortion during real-world use.
 
 <p align="center">
   <img src="fig/distortion.png"  alt="distortion"  width="100%">
+</p>
+
+* `bio/Drift.py`
+  * [class SignalDrift](https://github.com/peijii/I2CNet/): simulate biosignals with drift during real-world use.
+
+<p align="center">
+  <img src="fig/drift.png"  alt="drift"  width="66.66%">
+</p>
+
+* `bio/MagnitudeWarping.py`
+  * [class MagnitudeWarping](https://github.com/peijii/I2CNet/): apply magnitude warping to biosignals.
+
+<p align="center">
+  <img src="fig/MagnitudeWarping.png"  alt="magnitude warping"  width="33.33%">
+</p>
+
+* `bio/TimeWarping.py`
+  * [class TimeWarping](https://github.com/peijii/I2CNet/): apply time warping to biosignals.
+
+<p align="center">
+  <img src="fig/Timewarping.png"  alt="time warping"  width="33.33%">
+</p>
+
+* `bio/Permutation.py`
+  * [class Permutation](https://github.com/peijii/I2CNet/): apply permutation to biosignals.
+
+<p align="center">
+  <img src="fig/Permutation.png"  alt="permutation"  width="33.33%">
+</p>
+
+* `bio/Scaling.py`
+  * [class Scaling](https://github.com/peijii/I2CNet/): apply scaling to biosignals.
+
+<p align="center">
+  <img src="fig/Scaling.png"  alt="permutation"  width="33.33%">
 </p>
 
 
