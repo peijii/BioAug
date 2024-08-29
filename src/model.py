@@ -3,10 +3,9 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 
-# Residual Shrinkage Block
-class ResidualShrinkageBlock(nn.Module):
+class ResBlock(nn.Module):
     def __init__(self, in_channels, out_channels, kernel_size=3, stride=1):
-        super(ResidualShrinkageBlock, self).__init__()
+        super(ResBlock, self).__init__()
 
         self.conv1 = nn.Conv1d(in_channels, out_channels, kernel_size, stride, padding=kernel_size // 2)
         self.bn1 = nn.BatchNorm1d(out_channels)
@@ -39,15 +38,16 @@ class ResidualShrinkageBlock(nn.Module):
 
 
 # Residual Shrinkage Network
-class ResidualShrinkageNet(nn.Module):
-    def __init__(self, num_classes):
-        super(ResidualShrinkageNet, self).__init__()
+class ResNet(nn.Module):
+    def __init__(self, num_classes, window_size):
+        super(ResNet, self).__init__()
 
+        self.window_size = window_size
         self.conv1 = nn.Conv1d(1, 16, kernel_size=3, padding=1)
-        self.res_block1 = ResidualShrinkageBlock(16, 16)
-        self.res_block2 = ResidualShrinkageBlock(16, 32, stride=2)
+        self.res_block1 = ResBlock(16, 16)
+        self.res_block2 = ResBlock(16, 32, stride=2)
 
-        self.fc1 = nn.Linear(32 * (200 // 2), 128)  # Assuming input is downsampled by 2 in depth
+        self.fc1 = nn.Linear(32 * (self.window_size // 2), 128)  # Assuming input is downsampled by 2 in depth
         self.fc2 = nn.Linear(128, num_classes)
         self.softmax = nn.Softmax(dim=1)
 
