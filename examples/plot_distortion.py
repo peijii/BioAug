@@ -7,7 +7,7 @@ data = loadmat('emg_example1.mat')
 
 # 确认数据只有一列，并提取该列数据
 emg_data = data['emg'][0][:, np.newaxis]
-nonlinearDis = Distortion(p=1.0, phase_shift=0.05, distortion_type='phase', seed=42)
+nonlinearDis = Distortion(p=1.0, phase_shift=0.05, distortion_type='phase')
 
 emg_data_add_nonlinear = nonlinearDis(emg_data)
 

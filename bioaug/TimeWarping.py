@@ -1,5 +1,6 @@
 import numpy as np
 from scipy.interpolate import CubicSpline
+from src.tool import generate_seed
 
 
 class TimeWarping(object):
@@ -7,44 +8,57 @@ class TimeWarping(object):
     
     Args:
         p        (float) : probability of applying TimeWarping to the input signal.
-        sigma    (float) : The standard deviation that controls the intensity of the time warping. 
-                           A larger sigma value leads to more pronounced temporal distortions, 
-                           simulating greater time shifts..
-        knot     (int)   : The number of knots in the spline interpolation, 
-                           determining the control points for the time warping. 
-                           More knots result in more variation in the time distortion..                     
+        sigma    (float, tuple, list) : The standard deviation that controls the intensity of the time warping.
+                                        A larger sigma value leads to more pronounced temporal distortions.
+        knot     (int, tuple, list)   : The number of knots in the spline interpolation,
+                                        determining the control points for the time warping.
     """
 
-    def __init__(self, p=0.5, sigma=0.1, knot=4, seed=42):
+    def __init__(self, p=0.5, sigma=0.1, knot=4):
         self.p = p
         self.sigma = sigma
         self.knot = knot
-        self.seed = seed
+
+    def _select_value(self, param):
+        """Helper function to select a value from param if it's a tuple or list."""
+        if isinstance(param, (int, float)):
+            return param
+        elif isinstance(param, tuple) and len(param) == 2:
+            return np.random.uniform(param[0], param[1])
+        elif isinstance(param, list):
+            return np.random.choice(param)
+        else:
+            raise ValueError("Parameter must be an int, float, tuple of length 2, or list.")
 
     def __call__(self, signal):
         """signal: [sequence_length, input_dim]"""
         if np.random.uniform(0, 1) < self.p:
+            seed = generate_seed()
             signal_ = np.array(signal).copy()
             sequence_length, input_dim = signal.shape[0], signal.shape[1]
-            self.init_seed(sequence_length, input_dim, self.seed)
+
+            sigma = self._select_value(self.sigma)
+            knot = int(self._select_value(self.knot))
+            tt_cum = self.init_seed(sequence_length, input_dim, seed, sigma, knot)
             if len(signal_.shape) == 1:
                 signal_ = signal_[:, np.newaxis]
 
             signal_new = np.zeros((sequence_length, input_dim))
             x_range = np.arange(sequence_length)
             for i in range(input_dim):
-                signal_new[:, i] = np.interp(x_range, self.tt_cum[:, 0], signal_[:, i])
+                signal_new[:, i] = np.interp(x_range, tt_cum[:, 0], signal_[:, i])
             return signal_new
         return signal
 
-    def init_seed(self, sequence_length, input_dim, seed=42):
-        self.x = (np.ones((input_dim, 1)) * (np.arange(0, sequence_length, (sequence_length - 1) / (self.knot + 1)))).transpose()
+    def init_seed(self, sequence_length, input_dim, seed, sigma, knot):
+        x = (np.ones((input_dim, 1)) * (np.arange(0, sequence_length, (sequence_length - 1) / (knot + 1)))).transpose()
         np.random.seed(seed)
-        self.y = np.random.normal(loc=1.0, scale=self.sigma, size=(self.knot + 2, input_dim))
-        self.x_range = np.arange(sequence_length)
-        self.tt = np.array([CubicSpline(self.x[:, i], self.y[:, i])(self.x_range) for i in range(input_dim)]).transpose()
-        self.tt_cum = np.cumsum(self.tt, axis=0)
+        y = np.random.normal(loc=1.0, scale=sigma, size=(knot + 2, input_dim))
+        x_range = np.arange(sequence_length)
+        tt = np.array([CubicSpline(x[:, i], y[:, i])(x_range) for i in range(input_dim)]).transpose()
+        tt_cum = np.cumsum(tt, axis=0)
         # set the shape
-        self.t_scale = [(sequence_length - 1) / self.tt_cum[-1, i] for i in range(input_dim)]
+        t_scale = [(sequence_length - 1) / tt_cum[-1, i] for i in range(input_dim)]
         for i in range(input_dim):
-            self.tt_cum[:, i] = self.tt_cum[:, i] * self.t_scale[i]
+            tt_cum[:, i] = tt_cum[:, i] * t_scale[i]
+        return tt_cum

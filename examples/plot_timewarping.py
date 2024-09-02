@@ -7,7 +7,7 @@ data = loadmat('emg_example1.mat')
 
 # 确认数据只有一列，并提取该列数据
 emg_data = data['emg'][0][:, np.newaxis]
-timeWarping = TimeWarping(p=1.0, sigma=0.5, knot=6, seed=42)
+timeWarping = TimeWarping(p=1.0, sigma=1.1, knot=2)
 
 emg_data_add_timeWarping = timeWarping(emg_data)
 

@@ -8,7 +8,7 @@ data = loadmat('emg_example1.mat')
 
 # 确认数据只有一列，并提取该列数据
 emg_data = data['emg'][0][:, np.newaxis]
-permulation = Permutation(p=1.0, nPerm=2, minSegLength=1000)
+permulation = Permutation(p=1.0, nPerm=(2, 5), minSegLength=(50, 1000))
 
 emg_data_add_permulation = permulation(emg_data)
 

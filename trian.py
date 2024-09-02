@@ -1,11 +1,13 @@
 import serial
+import hashlib
 import torchvision.transforms as transforms
 import torch.optim as optim
 from torch.utils.data import DataLoader
 from src.model import *
 from src.tool import *
 from src.utils import *
-from bioaug import GaussianNoise
+from bioaug import GaussianNoise, SignalDrift, LocalJittering, Distortion, \
+    RandomCutout, Scaling, TimeWarping, Permutation, MagnitudeWarping, ImpedanceVariation
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -15,13 +17,14 @@ if __name__ == '__main__':
     seed_everything(42)
     batch_size = 128
     learning_rate = 0.0001
-    max_epoch = 100
+    max_epoch = 500
 
     milestones = [20, 40, 60, 80]
     sample_rate = 1000
     data_length = 4 * sample_rate
     window_size = 200 * 2
-    step_size = 50
+    step_size = 25
+    augmentation_p = 0.1
 
     num_classes = int(input("Enter number of classes: "))
     labels = [f"label{i + 1}" for i in range(num_classes)]
@@ -30,9 +33,18 @@ if __name__ == '__main__':
     train_data, test_data = makedataset(ser, labels, data_length, window_size, step_size)
     torch.cuda.set_device(0)
     # ======================== step 1/5 Data ==============================
-    #
+
     train_transform = transforms.Compose([
-        GaussianNoise(p=1.0, SNR=20),
+        GaussianNoise(p=augmentation_p, SNR=(20, 30)),
+        SignalDrift(p=augmentation_p, drift_rate=(0.05, 0.2), func=['linear', 'exp']),
+        LocalJittering(p=augmentation_p, alpha=(0.5, 1.5), frequency=(1, 1000), duration=(5, 50), num_jitters=[1, 2, 3]),
+        Distortion(p=augmentation_p, harmonic_degree=(0, 0.02), phase_shift=(0, 0.05), distortion_type=['harmonic', 'phase']),
+        RandomCutout(p=augmentation_p, area=(10, 60), num=(1, 8), default=0),
+        #Scaling(p=augmentation_p, sigma=(1, 10)),
+        TimeWarping(p=augmentation_p, sigma=(0.1, 1), knot=(1, 10)),
+        #Permutation(p=augmentation_p, nPerm=(2, 4), minSegLength=(10, 100)),
+        MagnitudeWarping(p=augmentation_p, sigma=(0.1, 0.2), knot=(1, 5)),
+        ImpedanceVariation(p=augmentation_p, amplitude=(-0.5, 1), frequency=(0, 1.0), func=['linear', 'sin', 'exp'])
     ])
     #
     # valid_transform = transforms.Compose([

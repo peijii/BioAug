@@ -7,7 +7,7 @@ data = loadmat('emg_example1.mat')
 
 # 确认数据只有一列，并提取该列数据
 emg_data = data['emg'][0][:, np.newaxis]
-magnitudewarping = MagnitudeWarping(p=1.0, sigma=0.2, knot=2, seed=42)
+magnitudewarping = MagnitudeWarping(p=1.0, sigma=(0.1, 0.2), knot=(1, 5))
 
 emg_data_add_magnitudewarping = magnitudewarping(emg_data)
 

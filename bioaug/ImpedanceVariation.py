@@ -1,23 +1,33 @@
 import numpy as np
-import matplotlib.pyplot as plt
+from src.tool import generate_seed
 
 
 class ImpedanceVariation(object):
     """Simulate impedance variation on a physiological signal using trigonometric, exponential, or linear functions.
 
     Args:
-        p        (float) : Probability of applying impedance variation to the input signal.
-        amplitude (float) : Amplitude of the modulation.
-        frequency (float) : Frequency of the modulation (for trigonometric and exponential functions).
-        func     (str)   : Type of function to use ('sin', 'cos', 'exp', 'linear').
-        seed     (int)   : A seed value for the random number generator.
+        p        (float)                : Probability of applying impedance variation to the input signal.
+        amplitude (float, tuple, list)  : Amplitude of the modulation.
+        frequency (float, tuple, list)  : Frequency of the modulation (for trigonometric and exponential functions).
+        func     (str, list)            : Type of function to use ('sin', 'exp', 'linear').
+        seed     (int)                  : A seed value for the random number generator.
     """
-    def __init__(self, p=0.5, amplitude=0.1, frequency=0.01, func='sin', seed=42):
+    def __init__(self, p=0.5, amplitude=0.1, frequency=0.01, func='sin'):
         self.p = p
         self.amplitude = amplitude
         self.frequency = frequency
         self.func = func
-        self.seed = seed
+
+    def _select_value(self, param):
+        """Helper function to select a value from param if it's a tuple or list."""
+        if isinstance(param, (int, float)) or isinstance(param, str):
+            return param
+        elif isinstance(param, tuple) and len(param) == 2:
+            return np.random.uniform(param[0], param[1])
+        elif isinstance(param, list):
+            return np.random.choice(param)
+        else:
+            raise ValueError("Parameter must be an int, float, str, tuple of length 2, or list.")
 
     def __call__(self, signal):
         """signal: [sequence_length, input_dim]
@@ -26,19 +36,25 @@ class ImpedanceVariation(object):
            linear:
         """
         if np.random.uniform(0, 1) < self.p:
-            np.random.seed(self.seed)
+            seed = generate_seed()
+
             signal_ = np.array(signal).copy()
             sequence_length, input_dim = signal_.shape[0], signal_.shape[1]
-            
+
+            # Select parameters
+            amplitude = self._select_value(self.amplitude)
+            frequency = self._select_value(self.frequency)
+            func = self._select_value(self.func)
+
             # Generate a modulation signal based on the chosen function
             t = np.linspace(0, 1, sequence_length)
             
-            if self.func == 'sin':
-                modulation = 1 + self.amplitude * np.sin(2 * np.pi * self.frequency * t)
-            elif self.func == 'exp':
-                modulation = 1 + self.amplitude * np.exp(-t * self.frequency)
-            elif self.func == 'linear':
-                modulation = 1 + self.amplitude * t
+            if func == 'sin':
+                modulation = 1 + amplitude * np.sin(2 * np.pi * frequency * t)
+            elif func == 'exp':
+                modulation = 1 + amplitude * np.exp(-t * frequency)
+            elif func == 'linear':
+                modulation = 1 + amplitude * t
             else:
                 raise ValueError("Function type must be 'sin', 'cos', 'exp', or 'linear'")
             

@@ -52,7 +52,7 @@ if __name__ == '__main__':
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     ser = serial.Serial('/dev/ttyUSB0', 921600)
     model = ResNet(num_classes=4, window_size=400).to(device)
-    model.load_state_dict(torch.load('trained/model_26_0.8739.pt'))
+    model.load_state_dict(torch.load('trained/model_469_0.9925.pt'))
     model.eval()
 
     real_time_test(model, ser, device, num_points=400)

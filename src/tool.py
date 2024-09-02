@@ -2,9 +2,17 @@ import numpy as np
 import os
 import torch
 import random
-from torch.nn import functional as F
 from sklearn.metrics import f1_score
+import time
+import hashlib
 
+
+def generate_seed():
+    current_time = str(time.time() * 1000)
+    hash_object = hashlib.md5(current_time.encode())
+    hash_integer = int(hash_object.hexdigest(), 16)
+    random_integer = hash_integer % 100
+    return random_integer
 
 def seed_everything(seed):
     """

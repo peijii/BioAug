@@ -7,7 +7,7 @@ data = loadmat('emg_example1.mat')
 
 # 确认数据只有一列，并提取该列数据
 emg_data = data['emg'][0][:, np.newaxis]
-drift = SignalDrift(p=1.0, func='exp', drift_rate=0.2, seed=42)
+drift = SignalDrift(p=1.0, func=['linear', 'exp'], drift_rate=(0.05, 0.2))
 
 emg_data_add_drift = drift(emg_data)
 

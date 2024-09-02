@@ -7,7 +7,7 @@ data = loadmat('emg_example1.mat')
 
 # 确认数据只有一列，并提取该列数据
 emg_data = data['emg'][0][:, np.newaxis]
-gaussian_noise = GaussianNoise(p=1.0, SNR=30, seed=42)
+gaussian_noise = GaussianNoise(p=1.0, SNR=23.22345353453)
 
 emg_data_add_gaussian_noisy = gaussian_noise(emg_data)
 

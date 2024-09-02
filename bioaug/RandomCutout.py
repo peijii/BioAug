@@ -1,4 +1,5 @@
 import numpy as np
+from src.tool import generate_seed
 
 
 class RandomCutout(object):
@@ -6,31 +7,47 @@ class RandomCutout(object):
     
     Args:
         p        (float) : probability of the sensor data to be performed the random cutout. Default value is 0.5.
-        area     (float) : size of fixed area.
-        num      (int)   : number of the area.                     
-        default  (float) : replace value of the cutout area 
+        area     (float, tuple, list) : Size of the cutout area.
+        num      (int, tuple, list)   : Number of cutout areas.
+        default  (float, tuple, list) : Replace value of the cutout area.
     """
 
-    def __init__(self, p=0.5, area=25, num=4, default=0.0, seed=42):
+    def __init__(self, p=0.5, area=25, num=4, default=0.0):
         self.p = p
         self.area = area
         self.num = num
         self.default = default
-        self.seed = seed
+
+    def _select_value(self, param):
+        """Helper function to select a value from param if it's a tuple or list."""
+        if isinstance(param, (int, float)):
+            return param
+        elif isinstance(param, tuple) and len(param) == 2:
+            return np.random.uniform(param[0], param[1])
+        elif isinstance(param, list):
+            return np.random.choice(param)
+        else:
+            raise ValueError("Parameter must be an int, float, tuple of length 2, or list.")
 
     def __call__(self, signal):
         """signal: [sequence_length, input_dim]"""
         if np.random.uniform(0, 1) < self.p:
+            seed = generate_seed()
             signal_ = np.array(signal).copy()
             sequence_length = signal.shape[0]
             mask = np.ones(sequence_length, np.float32)
-            np.random.seed(self.seed)
-            
+            np.random.seed(seed)
+
+            # Select parameters
+            area = int(self._select_value(self.area))  # Ensure area is an integer
+            num = int(self._select_value(self.num))  # Ensure num is an integer
+            default = int(self._select_value(self.default))
+
             # Apply the cutout
-            for _ in range(self.num):
+            for _ in range(num):
                 x = np.random.randint(sequence_length)
-                x1 = np.clip(x - self.area // 2, 0, sequence_length)
-                x2 = np.clip(x + self.area // 2, 0, sequence_length)
+                x1 = np.clip(x - area // 2, 0, sequence_length)
+                x2 = np.clip(x + area // 2, 0, sequence_length)
                 mask[x1:x2] = 0
             
             # Apply the mask to all channels
@@ -38,6 +55,6 @@ class RandomCutout(object):
             mask_b = 1 - mask  # Inverse mask for the cutout
             
             # Apply the mask to the signal
-            signal_ = signal_ * mask + mask_b * self.default
+            signal_ = signal_ * mask + mask_b * default
             return signal_
         return signal

@@ -7,7 +7,7 @@ data = loadmat('emg_example1.mat')
 
 # 确认数据只有一列，并提取该列数据
 emg_data = data['emg'][0][:, np.newaxis]
-local_jittering = LocalJittering(p=1.0, alpha=0.6, frequency=50, duration=50, num_jitters=1, seed=2)
+local_jittering = LocalJittering(p=1.0, alpha=(0.5, 1.5), frequency=(1, 1000), duration=(5, 50), num_jitters=[1, 2, 3])
 
 emg_data_add_drift = local_jittering(emg_data)
 

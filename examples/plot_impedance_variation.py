@@ -7,7 +7,7 @@ data = loadmat('emg_example1.mat')
 
 # 确认数据只有一列，并提取该列数据
 emg_data = data['emg'][0][:, np.newaxis]
-impedanceV = ImpedanceVariation(p=1.0, amplitude=0.5, frequency=0.5, func='exp', seed=42)
+impedanceV = ImpedanceVariation(p=1.0, amplitude=0.5, frequency=1.0, func='exp')
 
 emg_data_add_impedanceV = impedanceV(emg_data)
 

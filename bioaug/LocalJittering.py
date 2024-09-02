@@ -1,5 +1,5 @@
 import numpy as np
-import matplotlib.pyplot as plt
+from src.tool import generate_seed
 
 
 class LocalJittering(object):
@@ -7,42 +7,58 @@ class LocalJittering(object):
 
     Args:
         p            (float)  : Probability of applying jitter to the input signal.
-        alpha        (float)  : Scale factor for the high-frequency noise.
-        frequency    (int)    : Frequency of the jitter noise.
-        duration     (int)    : Duration (in time steps) of each jitter event.
-        num_jitters  (int)    : Number of jitter events to add to the signal.
-        seed         (int)    : A seed value for the random number generator.
+        alpha        (float, tuple, list)  : Scale factor for the high-frequency noise.
+        frequency    (int, tuple, list)    : Frequency of the jitter noise.
+        duration     (int, tuple, list)    : Duration (in time steps) of each jitter event.
+        num_jitters  (int, tuple, list)    : Number of jitter events to add to the signal.
     """
-    def __init__(self, p=0.5, alpha=0.5, frequency=50, duration=20, num_jitters=1, seed=42):
+    def __init__(self, p=0.5, alpha=0.5, frequency=50, duration=20, num_jitters=1):
         self.p = p
         self.alpha = alpha
         self.frequency = frequency
         self.duration = duration
         self.num_jitters = num_jitters
-        self.seed = seed
+
+    def _select_value(self, param):
+        """Helper function to select a value from param if it's a tuple or list."""
+        if isinstance(param, (int, float)):
+            return param
+        elif isinstance(param, tuple) and len(param) == 2:
+            return np.random.uniform(param[0], param[1])
+        elif isinstance(param, list):
+            return np.random.choice(param)
+        else:
+            raise ValueError("Parameter must be an int, float, tuple of length 2, or list.")
 
     def __call__(self, signal):
         """signal: [sequence_length, input_dim]
            signal = signal + α * high_frequency_noise
         """
         if np.random.uniform(0, 1) < self.p:
+            seed = generate_seed()
             signal_ = np.array(signal).copy()
-            np.random.seed(self.seed)
+            np.random.seed(seed)
             sequence_length, input_dim = signal_.shape[0], signal_.shape[1]
 
-            for _ in range(self.num_jitters):
+            # select parameters
+            alpha = self._select_value(self.alpha)
+            frequency = self._select_value(self.frequency)
+            duration = int(self._select_value(self.duration))  # Ensure duration is an integer
+            num_jitters = int(self._select_value(self.num_jitters))  # Ensure num_jitters is an integer
+
+            for _ in range(num_jitters):
                 # Randomly choose a start point for the jitter
-                start_point = np.random.randint(0, sequence_length - self.duration)
-                end_point = start_point + self.duration
+                start_point = np.random.randint(0, sequence_length - duration)
+                end_point = start_point + duration
                 
                 # Generate high-frequency noise for each channel
                 for i in range(input_dim):
-                    t = np.arange(self.duration)
-                    high_freq_noise = np.sin(2 * np.pi * self.frequency * t / self.duration)
-                    high_freq_noise += np.random.normal(0, 1, self.duration)  # Add randomness
+                    t = np.arange(duration)
+                    high_freq_noise = np.sin(2 * np.pi * frequency * t / duration)
+                    high_freq_noise += np.random.normal(0, 1, duration)  # Add randomness
                     # Normalize noise
                     high_freq_noise = high_freq_noise / np.max(np.abs(high_freq_noise))
                     # Apply the jitter to the selected segment of the signal
-                    signal_[start_point:end_point, i] += self.alpha * high_freq_noise
+                    signal_[start_point:end_point, i] += alpha * high_freq_noise
             return signal_
         return signal
