@@ -105,6 +105,7 @@ This library provides a series of data augmentation methods. The following is an
 - `duration (int, tuple, list)` : Duration (in time steps) of each jitter event. Can be a fixed value, a range, or a list.
 - `num_jitters (int, tuple, list)` : Number of jitter events to add. Can be a fixed value, a range, or a list.
 
+### Example Usage
 1. **Fixed values, tuples, and lists combination**:
 
 ```python
