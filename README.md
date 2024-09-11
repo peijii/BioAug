@@ -95,4 +95,29 @@ This set-up was tested under Windows 10 and Ubuntu 20.04.
 
 
 ## Usage
+This library provides a series of data augmentation methods. The following is an example of using the `LocalJittering` method. The `LocalJittering` method is used to randomly add local high-frequency jitter to the input time series signal.
 
+### Parameters
+
+- `p (float)` : Probability of applying jitter, range [0, 1].
+- `alpha (float, tuple, list)` : Scale factor for the high-frequency noise. Can be a fixed value, a range, or a list.
+- `frequency (int, tuple, list)` : Frequency of jitter noise. Can be a fixed value, a range, or a list.
+- `duration (int, tuple, list)` : Duration (in time steps) of each jitter event. Can be a fixed value, a range, or a list.
+- `num_jitters (int, tuple, list)` : Number of jitter events to add. Can be a fixed value, a range, or a list.
+
+1. **Fixed values, tuples, and lists combination**:
+
+```python
+from bioaug import LocalJittering
+
+# Example of mixing fixed values, ranges (tuples), and lists
+jitter = LocalJittering(
+    p=0.8,                  # Probability of applying jitter
+    alpha=0.5,              # Fixed alpha value
+    frequency=(40, 60),     # Random frequency in the range [40, 60]
+    duration=[10, 20, 30],  # Random duration chosen from the list [10, 20, 30]
+    num_jitters=2           # Fixed number of jitter events
+)
+
+# Assume 'signal' is the input time-series data
+augmented_signal = jitter(signal)
